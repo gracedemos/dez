@@ -1,8 +1,6 @@
-use std::{
-    process::Command,
-    fs
-};
+use std::process::Command;
 use regex::Regex;
+use colored::Colorize;
 use crate::dezfile::Dezfile;
 
 pub const DEZ_SPLASH: &str = "
@@ -20,7 +18,7 @@ pub const DEZ_SPLASH: &str = "
 ";
 
 pub fn build(dezfile: Dezfile) {
-    println!("[dez] Buliding");
+    println!("{} Buliding", "[dez]".green());
 
     let build_path = get_build_path();
     
@@ -39,12 +37,12 @@ pub fn build(dezfile: Dezfile) {
         .wait()
         .expect("Ninja failed");
 
-    println!("[dez] Done");
+    println!("{} Done", "[dez]".green());
 }
 
 pub fn run(dezfile: Dezfile) {
     build(dezfile);
-    println!("[dez] Running");
+    println!("{} Running", "[dez]".green());
 
     let project_path_output = Command::new("pwd")
         .output()
@@ -68,7 +66,7 @@ pub fn run(dezfile: Dezfile) {
         .wait()
         .unwrap();
 
-    println!("[dez] Done");
+    println!("{} Done", "[dez]".green());
 }
 
 fn get_build_path() -> String {
@@ -80,5 +78,5 @@ fn get_build_path() -> String {
     build_path.pop();
     build_path += "/build";
 
-    return build_path;
+    build_path
 }
