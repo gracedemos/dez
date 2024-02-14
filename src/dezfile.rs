@@ -29,9 +29,6 @@ impl Dezfile {
                 cmake_args.push(String::from(arg));
             }
 
-            println!("{build_type}");
-            println!("{:?}", cmake_args);
-
             Ok(Dezfile {
                 cmake_args,
                 build_type: String::from(build_type)
