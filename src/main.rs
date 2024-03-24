@@ -41,8 +41,8 @@ fn main() {
     };
 
     match operation.as_str() {
-        "build" => utils::build(dezfile),
-        "run" => utils::run(dezfile),
+        "build" => utils::build(&dezfile),
+        "run" => utils::run(&dezfile),
         _ => ()
     }
 }

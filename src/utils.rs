@@ -17,14 +17,14 @@ pub const DEZ_SPLASH: &str = "
         ~~            \\/__/         \\/__/    
 ";
 
-pub fn build(dezfile: Dezfile) {
+pub fn build(dezfile: &Dezfile) {
     println!("{} Buliding", "[dez]".green());
 
     let build_path = get_build_path();
     
     Command::new("cmake")
         .args([".", "-Bbuild", "-G Ninja"])
-        .args(dezfile.cmake_args)
+        .args(&dezfile.cmake_args)
         .spawn()
         .unwrap()
         .wait()
@@ -40,8 +40,8 @@ pub fn build(dezfile: Dezfile) {
     println!("{} Done", "[dez]".green());
 }
 
-pub fn run(dezfile: Dezfile) {
-    build(dezfile);
+pub fn run(dezfile: &Dezfile) {
+    build(&dezfile);
     println!("{} Running", "[dez]".green());
 
     let project_path_output = Command::new("pwd")
@@ -61,6 +61,7 @@ pub fn run(dezfile: Dezfile) {
     let exec_path = get_build_path() + "/" + exec_name;
 
     Command::new(exec_path)
+        .args(&dezfile.run_args)
         .spawn()
         .unwrap()
         .wait()

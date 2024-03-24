@@ -7,6 +7,7 @@ use regex::Regex;
 #[derive(Default)]
 pub struct Dezfile {
     pub cmake_args: Vec<String>,
+    pub run_args: Vec<String>,
     pub build_type: String
 }
 
@@ -23,6 +24,17 @@ impl Dezfile {
                 .unwrap()
                 .as_str();
 
+            let run_args_regex = Regex::new(r"run-args\s*=\s*\[(.*)\]")
+                .unwrap();
+            let run_args = run_args_regex.captures(&dezfile)
+                .unwrap()
+                .get(1)
+                .unwrap()
+                .as_str()
+                .split(", ")
+                .map(|s| String::from(s))
+                .collect();
+
             let cmake_args_regex = Regex::new(r"(-D\w+)")
                 .unwrap();
             for (_, [arg]) in cmake_args_regex.captures_iter(&dezfile).map(|c| c.extract()) {
@@ -31,6 +43,7 @@ impl Dezfile {
 
             Ok(Dezfile {
                 cmake_args,
+                run_args,
                 build_type: String::from(build_type)
             })
         } else {
