@@ -40,7 +40,7 @@ pub fn build(dezfile: &Dezfile) {
     println!("{} Done", "[dez]".green());
 }
 
-pub fn run(dezfile: &Dezfile) {
+pub fn run(dezfile: &Dezfile, run_args: Vec<String>) {
     build(&dezfile);
     println!("{} Running", "[dez]".green());
 
@@ -62,6 +62,7 @@ pub fn run(dezfile: &Dezfile) {
 
     Command::new(exec_path)
         .args(&dezfile.run_args)
+        .args(run_args)
         .spawn()
         .unwrap()
         .wait()

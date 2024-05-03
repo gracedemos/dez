@@ -23,6 +23,11 @@ fn main() {
             process::exit(1);
         });
 
+    let mut run_args = Vec::new();
+    while let Some(arg) = args.next() {
+        run_args.push(arg);
+    }
+
     let output = Command::new("pwd")
         .output()
         .unwrap();
@@ -42,7 +47,7 @@ fn main() {
 
     match operation.as_str() {
         "build" => utils::build(&dezfile),
-        "run" => utils::run(&dezfile),
+        "run" => utils::run(&dezfile, run_args),
         _ => ()
     }
 }
